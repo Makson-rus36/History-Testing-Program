@@ -1,0 +1,214 @@
+﻿<Window x:Name="window_main" x:Class="kursovay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kursovay"
+        mc:Ignorable="d"
+        
+        Icon="icon.jpg"
+        
+        Title="Tests History v.1.0alpha" Height="720" Width="1200" ScrollViewer.VerticalScrollBarVisibility="Disabled" Closed="close_mainwindow">
+
+
+
+    <Window.Background >
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="White"/>
+            <GradientStop Color="#FFACACAC" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.Resources>
+
+        <Style x:Key="DataGrid" TargetType="DataGrid">
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2"
+                       SnapsToDevicePixels="true"
+                       Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                       StrokeDashArray="1 2"
+                       StrokeThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+        <SolidColorBrush x:Key="Button.Static.Background"
+                     Color="#FFDDDDDD" />
+        <SolidColorBrush x:Key="Button.Static.Border"
+                     Color="#FF707070" />
+        <SolidColorBrush x:Key="Button.MouseOver.Background"
+                     Color="#FFBEE6FD" />
+        <SolidColorBrush x:Key="Button.MouseOver.Border"
+                     Color="#FF3C7FB1" />
+        <SolidColorBrush x:Key="Button.Pressed.Background"
+                     Color="#FFC4E5F6" />
+        <SolidColorBrush x:Key="Button.Pressed.Border"
+                     Color="#FF2C628B" />
+        <SolidColorBrush x:Key="Button.Disabled.Background"
+                     Color="#FFF4F4F4" />
+        <SolidColorBrush x:Key="Button.Disabled.Border"
+                     Color="#FFADB2B5" />
+        <SolidColorBrush x:Key="Button.Disabled.Foreground"
+                     Color="#FF838383" />
+
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle x:Name="outerRectangle" Fill="Transparent" MaxHeight="40" MaxWidth="120" RadiusY="15" RadiusX="15" Stroke="Transparent" />
+                            <ContentPresenter x:Name="myContentPresenter"  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True"/>
+                            <Trigger Property="IsDefaulted" Value="True"/>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="outerRectangle" Property= "Stroke" Value="Red"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True" >
+
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+        <Style x:Key="DefaultButtonStyle" 
+           TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Focusable="False"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                            </Trigger>
+                            <!--<Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
+                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
+              </Trigger>-->
+                            <!--<Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
+                            </Trigger>-->
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
+                                <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LeftScrollViewer"
+       TargetType="{x:Type ScrollViewer}">
+            <Setter Property="OverridesDefaultStyle"
+          Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="1"
+                  BorderThickness="0,1,1,1">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+                                </Border.BorderBrush>
+                                <ScrollContentPresenter />
+                            </Border>
+                            <ScrollBar x:Name="PART_VerticalScrollBar"
+                     Value="{TemplateBinding VerticalOffset}"
+                     Maximum="{TemplateBinding ScrollableHeight}"
+                     ViewportSize="{TemplateBinding ViewportHeight}"
+                     Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                            <ScrollBar x:Name="PART_HorizontalScrollBar"
+                     Orientation="Horizontal"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     Value="{TemplateBinding HorizontalOffset}"
+                     Maximum="{TemplateBinding ScrollableWidth}"
+                     ViewportSize="{TemplateBinding ViewportWidth}"
+                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    <Grid x:Name="grid_menu" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="376*"/>
+            <RowDefinition Height="23*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="167" MaxWidth="167"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="1" Margin="0,0,0,10" MaxWidth="167" >
+            <Expander x:Name="but_test_spisok" Header="Список тестов" FontFamily="Dubai Light" FontSize="20" MouseMove="but_test_spisok_move" MouseLeave="but_test_spisok_leave" Cursor="" >
+                <StackPanel>
+                    <Button x:Name="but_test1" Content="Test 1"  Style="{DynamicResource DefaultButtonStyle}"  FontFamily="Dubai Light" FontSize="18" Background="{x:Null}" BorderBrush="{x:Null}" MouseLeave="test_1_move_over" MouseMove="test_1_move" Click="But_test1_Click" />
+                </StackPanel>
+            </Expander>
+            <Button x:Name="but_test_open" Style="{DynamicResource DefaultButtonStyle}"   FontFamily="Dubai Light" FontSize="20" Content="Открыть тест" Margin="0,14,0,0" HorizontalContentAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" Click="But_test_open_click" MouseLeave="But__open_test_leave"  MouseMove="But__open_test_move" Cursor="Arrow" UseLayoutRounding="False" Padding="1" />
+            <Button x:Name="but_settings" Style="{DynamicResource DefaultButtonStyle}"   FontFamily="Dubai Light" FontSize="20" Content="Настройки" Margin="0,14,0,0" HorizontalContentAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" Click="But_settings_Click" MouseLeave="But_settings_move_over"  MouseMove="But_settings_move" Cursor="Arrow" UseLayoutRounding="False" Padding="1" />
+
+        </StackPanel>
+        <Rectangle Grid.Column="1" Grid.Row="1" Fill="#FF0046FF" Margin="0,0,1,0" MaxWidth="1" MinWidth="1" />
+        <Grid x:Name="grid" Grid.Column="2" Grid.Row="1" />
+    </Grid>
+
+</Window>
